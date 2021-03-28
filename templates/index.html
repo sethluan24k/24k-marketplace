@@ -1,0 +1,66 @@
+{% include "header.html" %}
+
+  <div class="wrapper">
+    <div class="page-header header-filter">
+      <div class="squares square1"></div>
+      <div class="squares square2"></div>
+      <div class="squares square3"></div>
+      <div class="squares square4"></div>
+      <div class="squares square5"></div>
+      <div class="squares square6"></div>
+      <div class="squares square7"></div>
+      <div class="container">
+        <div class="content-center brand">
+          <h1 class="h1-seo">24k MARKETPLACE•</h1>
+          <h3>Beautiful Collectibles. Connecting Japan to the World.</h3>
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <!-- Typography -->
+      <div class="section section-lg section-coins">
+        <img src="{{ url_for('static', filename='/assets/img/path1.png') }}" class="path">
+        <img src="{{ url_for('static', filename='/assets/img/path3.png') }}" class="path path1">
+        <div class="container">
+          <div class="space-50"></div>
+          <div id="images">
+            <div class="row">
+              <div class="col-sm-3 col-6">
+            <h1>New Releases</h1>
+                </div>
+              </div>
+            <div class="row">
+                {% for asset in assets %}
+                <div class="col-sm-3 col-6">
+                <div class="card card-coin card-plain">
+                  <div class="card-header">
+                <img src="{{ asset.assetUrl }}" alt="Circle image" class="img-fluid rounded shadow-lg" style="width: 300px;">
+                  </div>
+                  <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12 text-center">
+                    <h4 class="text-uppercase">A Collectible</h4>
+                    <span>Normal</span>
+                    <hr class="line-primary">
+                  </div>
+                </div>
+                <div class="row">
+                  <ul class="list-group">
+                    <li class="list-group-item">{{ asset.price }} POINTS</li>
+                  </ul>
+                </div>
+              </div>
+                  <div class="card-footer text-center">
+                <button class="btn btn-primary">Buy</button>
+              </div>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {% include "footer.html" %}
