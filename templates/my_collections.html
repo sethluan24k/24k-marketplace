@@ -1,0 +1,18 @@
+{% include "header.html" %}
+      <div class="section section-lg section-coins">
+<div class="container">
+    <div class="row">
+              <div class="col-sm-3 col-6">
+            <h1>My Collections</h1>
+                </div>
+              </div>
+    <div class="row">
+        {%for collection in collections%}
+          <div class="col-sm-3 col-6">
+            <img src="{{ collection.url }}" alt="Rounded image" class="img-fluid rounded shadow-lg" style="width: 300px;">
+          </div>
+        {% endfor %}
+    </div>
+    </div>
+      </div>
+{% include "footer.html" %}

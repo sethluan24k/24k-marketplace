@@ -5,8 +5,9 @@ from functools import wraps
 import os
 from dotenv import load_dotenv
 
-from asset_utility import AssetUtility
+from collectible_utility import CollectibleUtility
 
+# Load env variables
 load_dotenv()
 
 app = Flask(__name__)
@@ -21,7 +22,7 @@ login_manager.init_app(app)
 # Dummy User
 class User(UserMixin):
     def __init__(self):
-        self.id = 2
+        self.user_id = 2
         self.username = 'seth.luan@24krat.io'
         self.user_type = 0
         self.profile_image = ''
@@ -46,10 +47,13 @@ def load_user(user_id):
         return None
 
 
+collectible_utility = CollectibleUtility()
+
+
 @app.route('/')
 def home():
-    assets = AssetUtility().all_assets()
-    return render_template('index.html', assets=assets)
+    collectibles = collectible_utility.collectibles
+    return render_template('index.html', collectibles=collectibles)
 
 
 @app.route('/login')
@@ -63,6 +67,28 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
+@app.route('/collectible/<int:collectible_id>')
+def collectible_detail(collectible_id):
+    collectible = collectible_utility.find_collectible(collectible_id)
+    return render_template('collectible.html', collectible=collectible)
+
+
+@app.route('/buy/<int:collectible_id>')
+def buy(collectible_id):
+    if not current_user.is_authenticated:
+        flash("Please login first!")
+        return redirect(url_for('collectible_detail', collectible_id=collectible_id))
+    else:
+        collectible_utility.assign_owner(collectible_id, current_user.user_id)
+        return redirect(url_for('my_collection'))
+
+
+@app.route('/my_collection')
+def my_collection():
+    collections = collectible_utility.find_collectible_by_user(current_user.user_id)
+    return render_template('my_collections.html', collections=collections)
 
 
 if __name__ == "__main__":

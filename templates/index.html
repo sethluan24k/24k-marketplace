@@ -17,7 +17,6 @@
       </div>
     </div>
     <div class="main">
-      <!-- Typography -->
       <div class="section section-lg section-coins">
         <img src="{{ url_for('static', filename='/assets/img/path1.png') }}" class="path">
         <img src="{{ url_for('static', filename='/assets/img/path3.png') }}" class="path path1">
@@ -30,28 +29,28 @@
                 </div>
               </div>
             <div class="row">
-                {% for asset in assets %}
+                {% for collectible in collectibles %}
                 <div class="col-sm-3 col-6">
                 <div class="card card-coin card-plain">
                   <div class="card-header">
-                <img src="{{ asset.assetUrl }}" alt="Circle image" class="img-fluid rounded shadow-lg" style="width: 300px;">
+                <img src="{{ collectible.url }}" alt="Circle image" class="img-fluid rounded shadow-lg" style="width: 300px;">
                   </div>
                   <div class="card-body">
                 <div class="row">
                   <div class="col-md-12 text-center">
-                    <h4 class="text-uppercase">A Collectible</h4>
+                    <h4 class="text-uppercase">{{ collectible.name }}</h4>
                     <span>Normal</span>
                     <hr class="line-primary">
                   </div>
                 </div>
                 <div class="row">
                   <ul class="list-group">
-                    <li class="list-group-item">{{ asset.price }} POINTS</li>
+                    <li class="list-group-item">{{ collectible.price }} POINTS</li>
                   </ul>
                 </div>
               </div>
                   <div class="card-footer text-center">
-                <button class="btn btn-primary">Buy</button>
+                <a class="btn btn-primary" href="{{ url_for('collectible_detail', collectible_id=collectible.collectible_id) }}">Buy</a>
               </div>
                   </div>
                 </div>

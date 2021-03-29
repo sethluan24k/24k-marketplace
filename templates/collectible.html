@@ -1,0 +1,40 @@
+{% include "header.html" %}
+<div class="section section-notifications" id="notifications" style="padding:80px">
+  {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+    <div class="alert alert-warning alert-with-icon">
+            <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+              <i class="tim-icons icon-simple-remove"></i>
+            </button>
+            <span data-notify="icon" class="tim-icons icon-bulb-63"></span>
+            <span>
+              <b> {{ message }} </b></span>
+          </div>
+  {% endfor %}
+          {% endif %}
+      {% endwith %}
+</div>
+    <section class="section section-lg section-safe">
+      <img src="{{ url_for('static', filename='/assets/img/path5.png') }}" class="path">
+      <div class="container">
+        <div class="row row-grid justify-content-between">
+          <div class="col-md-5">
+            <img src="{{ collectible.url }}" class="img-fluid floating">
+
+          </div>
+          <div class="col-md-6">
+            <div class="px-md-5">
+              <hr class="line-success">
+              <h3>{{ collectible.name }}</h3>
+              <p>{{ collectible.description }}</p>
+              <br>
+              <h2>{{collectible.price}} points</h2>
+              <a class="btn btn-primary" href="{{url_for('buy', collectible_id=collectible.collectible_id)}}">Buy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% include "footer.html" %}
