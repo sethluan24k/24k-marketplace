@@ -1,6 +1,6 @@
 class User:
     def __init__(self):
-        self.user_id = 0
+        self.id = 0
         self.user_name = ''
 
         # admin - 0

@@ -11,7 +11,7 @@
       <div class="squares square7"></div>
       <div class="container">
         <div class="content-center brand">
-          <h1 class="h1-seo">24k MARKETPLACE•</h1>
+          <h1 class="h1-seo">24k GALLERY•</h1>
           <h3>Beautiful Collectibles. Connecting Japan to the World.</h3>
         </div>
       </div>
@@ -30,8 +30,8 @@
               </div>
             <div class="row">
                 {% for collectible in collectibles %}
-                <div class="col-sm-3 col-6">
-                <div class="card card-coin card-plain">
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                <div class="card card-coin card-plain" style="margin-bottom:160px">
                   <div class="card-header">
                 <img src="{{ collectible.url }}" alt="Circle image" class="img-fluid rounded shadow-lg" style="width: 300px;">
                   </div>
@@ -50,8 +50,12 @@
                 </div>
               </div>
                   <div class="card-footer text-center">
-                <a class="btn btn-primary" href="{{ url_for('collectible_detail', collectible_id=collectible.collectible_id) }}">Buy</a>
-              </div>
+                {% if collectible.owner_id > 0 %}
+                    <span class="badge badge-default">Sold</span>
+                    {% else %}
+                    <a class="btn btn-primary" href="{{ url_for('collectible_detail', collectible_id=collectible.collectible_id) }}">Buy</a>
+              {% endif %}
+                  </div>
                   </div>
                 </div>
                 {% endfor %}

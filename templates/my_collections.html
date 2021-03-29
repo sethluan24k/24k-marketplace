@@ -9,7 +9,10 @@
     <div class="row">
         {%for collection in collections%}
           <div class="col-sm-3 col-6">
-            <img src="{{ collection.url }}" alt="Rounded image" class="img-fluid rounded shadow-lg" style="width: 300px;">
+            <div class="container text-center">
+              <img src="{{ collection.url }}" alt="Rounded image" class="img-fluid rounded shadow-lg" style="width: 300px;">
+                <a class="btn btn-primary" href="">Sell</a>
+                </div>
           </div>
         {% endfor %}
     </div>

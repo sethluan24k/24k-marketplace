@@ -22,7 +22,7 @@ login_manager.init_app(app)
 # Dummy User
 class User(UserMixin):
     def __init__(self):
-        self.user_id = 2
+        self.id = 2
         self.username = 'seth.luan@24krat.io'
         self.user_type = 0
         self.profile_image = ''
@@ -52,6 +52,7 @@ collectible_utility = CollectibleUtility()
 
 @app.route('/')
 def home():
+    collectible_utility.all_collectibles()
     collectibles = collectible_utility.collectibles
     return render_template('index.html', collectibles=collectibles)
 
@@ -81,13 +82,13 @@ def buy(collectible_id):
         flash("Please login first!")
         return redirect(url_for('collectible_detail', collectible_id=collectible_id))
     else:
-        collectible_utility.assign_owner(collectible_id, current_user.user_id)
+        collectible_utility.assign_owner(collectible_id, current_user.id)
         return redirect(url_for('my_collection'))
 
 
 @app.route('/my_collection')
 def my_collection():
-    collections = collectible_utility.find_collectible_by_user(current_user.user_id)
+    collections = collectible_utility.find_collectible_by_user(current_user.id)
     return render_template('my_collections.html', collections=collections)
 
 
