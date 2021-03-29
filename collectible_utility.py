@@ -4,8 +4,7 @@ import requests
 from collectible import Collectible
 
 
-# SHEETY_TOKEN = os.environ.get("SHEETY_TOKEN")
-SHEETY_TOKEN = 'd9mNNJqVB6pU'
+SHEETY_TOKEN = os.environ.get("SHEETY_TOKEN")
 sheety_header = {"Authorization": f'Bearer {SHEETY_TOKEN}'}
 
 
