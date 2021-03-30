@@ -20,37 +20,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-class User(UserMixin):
-    def __init__(self, user_id, user_name, email, password):
-        self.id = user_id
-        self.user_name = user_name
-        self.email = email
-        self.password = password
-        # admin - 0
-        # creator - 1
-        # collector - 2
-        self.user_type = ''
-        self.profile_img = ''
-        self.balance = 0
-
-
-# test data
-s = [
-    {'id': 2, 'userName': 'sethluan', 'email': 'seth.luan@24karat.io', 'password': 'monster', 'userType': 0},
-    {'id': 3, 'userName': 'mogawa', 'email': 'ogawa.masaki@24karat.io', 'password': 'hunter', 'userType': 0}
-]
-users = {}
-for i in range(len(s)):
-    u = User(
-        s[i]["id"],
-        s[i]["userName"],
-        s[i]["email"],
-        s[i]["password"],
-        # s[i]["userType"]
-        )
-    users[s[i]['id']] = u
-
-
 def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -96,12 +65,6 @@ def login():
         return redirect(url_for("login"))
     return render_template("login.html", form=form)
 
-# @app.route('/login')
-# def login():
-#     user = User()
-#     login_user(user)
-#     return redirect(url_for('home'))
-
 
 @app.route('/logout')
 def logout():
@@ -138,6 +101,7 @@ def marketplace():
 
 
 @app.route('/list_on_marketplace/<int:collectible_id>')
+@login_required
 def list_on_marketplace(collectible_id):
     collectible_utility.list_on_marketplace(collectible_id)
     flash("Listed on marketplace!")
@@ -145,6 +109,7 @@ def list_on_marketplace(collectible_id):
 
 
 @app.route('/unlist_from_marketplace/<int:collectible_id>')
+@login_required
 def unlist_from_marketplace(collectible_id):
     collectible_utility.unlist_from_marketplace(collectible_id)
     flash("Unlisted from marketplace!")

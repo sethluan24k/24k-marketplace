@@ -13,14 +13,6 @@ response = requests.get(url="https://api.sheety.co/dd227305523e98d4aa37bcaff9e48
 users_json = response.json()["users"]
 
 
-# username_table = {u.username: u for u in users}
-# userid_table = {u.id: u for u in users}
-# s = [
-#     {'id': 2, 'userName': 'sethluan', 'email': 'seth.luan@24karat.io', 'password': 'monster', 'userType': 0},
-#     {'id': 3, 'userName': 'mogawa', 'email': 'ogawa.masaki@24karat.io', 'password': 'hunter', 'userType': 0}
-# ]
-
-
 class UserUtility:
     def __init__(self):
         self.users = {
