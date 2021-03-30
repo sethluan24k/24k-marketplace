@@ -1,11 +1,12 @@
-from flask import Flask, render_template, redirect, url_for, flash, abort
+from flask import Flask, render_template, redirect, url_for, flash, abort, request
 from flask_bootstrap import Bootstrap
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from functools import wraps
 import os
 from dotenv import load_dotenv
-
 from collectible_utility import CollectibleUtility
+from user_utility import UserUtility
+from forms import LoginForm
 
 # Load env variables
 load_dotenv()
@@ -19,13 +20,35 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-# Dummy User
 class User(UserMixin):
-    def __init__(self):
-        self.id = 2
-        self.username = 'seth.luan@24krat.io'
-        self.user_type = 0
-        self.profile_image = ''
+    def __init__(self, user_id, user_name, email, password):
+        self.id = user_id
+        self.user_name = user_name
+        self.email = email
+        self.password = password
+        # admin - 0
+        # creator - 1
+        # collector - 2
+        self.user_type = ''
+        self.profile_img = ''
+        self.balance = 0
+
+
+# test data
+s = [
+    {'id': 2, 'userName': 'sethluan', 'email': 'seth.luan@24karat.io', 'password': 'monster', 'userType': 0},
+    {'id': 3, 'userName': 'mogawa', 'email': 'ogawa.masaki@24karat.io', 'password': 'hunter', 'userType': 0}
+]
+users = {}
+for i in range(len(s)):
+    u = User(
+        s[i]["id"],
+        s[i]["userName"],
+        s[i]["email"],
+        s[i]["password"],
+        # s[i]["userType"]
+        )
+    users[s[i]['id']] = u
 
 
 def admin_only(f):
@@ -40,14 +63,12 @@ def admin_only(f):
 
 @login_manager.user_loader
 def load_user(user_id):
-    user = User()
-    if user:
-        return user
-    else:
-        return None
+    user = user_utility.find_user(int(user_id))
+    return user
 
 
 collectible_utility = CollectibleUtility()
+user_utility = UserUtility()
 
 
 @app.route('/')
@@ -57,11 +78,29 @@ def home():
     return render_template('index.html', collectibles=collectibles)
 
 
-@app.route('/login')
+@app.route('/login', methods=["POST", "GET"])
 def login():
-    user = User()
-    login_user(user)
-    return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.user_name.data
+        password = form.password.data
+        for user in user_utility.users.values():
+            if user.user_name == username:
+                if user.password == password:
+                    login_user(user)
+                    return redirect(url_for('home'))
+                else:
+                    flash("Please check your password and try again.")
+                    return redirect(url_for("login"))
+        flash("User doesn't exist. Please try again.")
+        return redirect(url_for("login"))
+    return render_template("login.html", form=form)
+
+# @app.route('/login')
+# def login():
+#     user = User()
+#     login_user(user)
+#     return redirect(url_for('home'))
 
 
 @app.route('/logout')

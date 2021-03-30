@@ -17,7 +17,7 @@ class CollectibleUtility:
         self.all_collectibles()
 
     def all_collectibles(self):
-        get_asset_url = 'https://api.sheety.co/e8a815d97433f8fe431090ac021cf9fc/24K/assets'
+        get_asset_url = 'https://api.sheety.co/dd227305523e98d4aa37bcaff9e48d3e/24K/assets'
         response = requests.get(url=get_asset_url, headers=sheety_header)
         assets_json = response.json()
         self.collectibles = [
@@ -41,7 +41,7 @@ class CollectibleUtility:
         return collectibles
 
     def assign_owner(self, collectible_id, user_id):
-        url = f'https://api.sheety.co/e8a815d97433f8fe431090ac021cf9fc/24K/assets/{collectible_id}'
+        url = f'https://api.sheety.co/dd227305523e98d4aa37bcaff9e48d3e/24K/assets/{collectible_id}'
         body = {
             'asset': {
                 'ownerId': user_id
