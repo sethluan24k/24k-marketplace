@@ -20,7 +20,6 @@ class CollectibleUtility:
         get_asset_url = 'https://api.sheety.co/e8a815d97433f8fe431090ac021cf9fc/24K/assets'
         response = requests.get(url=get_asset_url, headers=sheety_header)
         assets_json = response.json()
-        print(assets_json)
         self.collectibles = [
             Collectible(asset['id'], asset['assetName'], asset['description'], asset['assetUrl'],
                         asset['thumbnail'], asset['price'], asset['ownerId'], asset['status'])

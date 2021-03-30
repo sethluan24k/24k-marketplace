@@ -43,8 +43,10 @@
                 </div>
               </div>
                   <div class="card-footer text-center">
-                {% if collectible.owner_id == current_user.id %}
-                    <a class="btn btn-info" href="{{url_for('unlist_from_marketplace', collectible_id=collectible.collectible_id)}}">Unlist From Marketplace</a>
+                {% if not current_user.is_authenticated %}
+                      <span class="badge badge-info">Login before you buy</span>
+                      {% elif collectible.owner_id == current_user.id %}
+                      <a class="btn btn-info" href="{{url_for('unlist_from_marketplace', collectible_id=collectible.collectible_id)}}">Unlist From Marketplace</a>
                       {% else %}
                     <a class="btn btn-primary" href="{{ url_for('collectible_detail', collectible_id=collectible.collectible_id) }}">Buy</a>
                 {% endif %}
