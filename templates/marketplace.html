@@ -1,21 +1,6 @@
 {% include "header.html" %}
 
   <div class="wrapper">
-    <div class="page-header header-filter">
-      <div class="squares square1"></div>
-      <div class="squares square2"></div>
-      <div class="squares square3"></div>
-      <div class="squares square4"></div>
-      <div class="squares square5"></div>
-      <div class="squares square6"></div>
-      <div class="squares square7"></div>
-      <div class="container">
-        <div class="content-center brand">
-          <h1 class="h1-seo">24k GALLERY•</h1>
-          <h3>Beautiful Collectibles. Connecting Japan to the World.</h3>
-        </div>
-      </div>
-    </div>
     <div class="main">
       <div class="section section-lg section-coins">
         <img src="{{ url_for('static', filename='/assets/img/path1.png') }}" class="path">
@@ -25,7 +10,7 @@
           <div id="images">
             <div class="row">
               <div class="col-sm-3 col-6">
-            <h1>New Releases</h1>
+            <h1>P2P Marketplace</h1>
                 </div>
               </div>
             <div class="row">
@@ -46,19 +31,23 @@
                 <div class="row">
                   <ul class="list-group">
                     <li class="list-group-item">{{ collectible.price }} POINTS</li>
+                      <li class="list-group-item">Owned By:
+                        {% if current_user.id == collectible.owner_id %}
+                          you
+                          {% else %}
+                          {{ collectible.owner_id }}
+                         {% endif %}
+                      </li>
                   </ul>
+
                 </div>
               </div>
                   <div class="card-footer text-center">
                 {% if collectible.owner_id == current_user.id %}
-                      <span class="badge badge-info">Owned by you</span>
-                      {% elif collectible.status == 'owned' %}
-                    <span class="badge badge-default">Sold</span>
-                    {% elif collectible.status == 'marketplace' %}
-                      <a class="btn btn-success" href="{{ url_for('marketplace') }}">Buy on Marketplace</a>
+                    <a class="btn btn-info" href="{{url_for('unlist_from_marketplace', collectible_id=collectible.collectible_id)}}">Unlist From Marketplace</a>
                       {% else %}
                     <a class="btn btn-primary" href="{{ url_for('collectible_detail', collectible_id=collectible.collectible_id) }}">Buy</a>
-              {% endif %}
+                {% endif %}
                   </div>
                   </div>
                 </div>

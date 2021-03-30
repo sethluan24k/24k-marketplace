@@ -92,5 +92,25 @@ def my_collection():
     return render_template('my_collections.html', collections=collections)
 
 
+@app.route('/marketplace')
+def marketplace():
+    collectibles = collectible_utility.collectibles_on_marketplace()
+    return render_template('marketplace.html', collectibles=collectibles)
+
+
+@app.route('/list_on_marketplace/<int:collectible_id>')
+def list_on_marketplace(collectible_id):
+    collectible_utility.list_on_marketplace(collectible_id)
+    flash("Listed on marketplace!")
+    return redirect(url_for('my_collection'))
+
+
+@app.route('/unlist_from_marketplace/<int:collectible_id>')
+def unlist_from_marketplace(collectible_id):
+    collectible_utility.unlist_from_marketplace(collectible_id)
+    flash("Unlisted from marketplace!")
+    return redirect(url_for('my_collection'))
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
